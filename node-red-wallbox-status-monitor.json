@@ -1,0 +1,473 @@
+[
+    {
+        "id": "01598ca0e87ca5fa",
+        "type": "tab",
+        "label": "Wallbox status",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3376d9d742baaacf",
+        "type": "poll-state",
+        "z": "01598ca0e87ca5fa",
+        "name": "",
+        "server": "9abb00aef19ebed9",
+        "version": 2,
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "updateinterval": "10",
+        "updateIntervalType": "num",
+        "updateIntervalUnits": "minutes",
+        "outputinitially": false,
+        "outputonchanged": true,
+        "entity_id": "sensor.wallbox_portal_status_description",
+        "state_type": "str",
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "x": 290,
+        "y": 320,
+        "wires": [
+            [
+                "5728d9e1c80497ad"
+            ]
+        ]
+    },
+    {
+        "id": "f5820a8d24e3cd69",
+        "type": "debug",
+        "z": "01598ca0e87ca5fa",
+        "name": "Doing something",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1250,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "887cfdcfd85bfdcf",
+        "type": "api-call-service",
+        "z": "01598ca0e87ca5fa",
+        "name": "Failed",
+        "server": "9abb00aef19ebed9",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "notify",
+        "service": "alexa_media_<YOUR_ALEXA_NAME_HERE>",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [],
+        "data": "{\"message\":\"Wallbox failed\",\"data\":{\"type\":\"announce\"},\"target\":\"media_player.<YOUR_ALEXA_NAME_HERE>\"}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 830,
+        "y": 700,
+        "wires": [
+            [
+                "f5820a8d24e3cd69",
+                "4ca84d0f20fd30de"
+            ]
+        ]
+    },
+    {
+        "id": "5728d9e1c80497ad",
+        "type": "switch",
+        "z": "01598ca0e87ca5fa",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Discharging",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Charging",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Ready",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Paused by user",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Offline",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 6,
+        "x": 250,
+        "y": 640,
+        "wires": [
+            [
+                "95a9d6170555531d"
+            ],
+            [
+                "706c929aba6db673"
+            ],
+            [
+                "7205b125fd9e3f5d"
+            ],
+            [
+                "242f63507c6c31fc"
+            ],
+            [
+                "887cfdcfd85bfdcf"
+            ],
+            [
+                "887cfdcfd85bfdcf"
+            ]
+        ]
+    },
+    {
+        "id": "2132ebfcbba14943",
+        "type": "api-call-service",
+        "z": "01598ca0e87ca5fa",
+        "name": "Charging",
+        "server": "9abb00aef19ebed9",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "notify",
+        "service": "alexa_media_<YOUR_ALEXA_NAME_HERE>",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [],
+        "data": "{\"message\":\"Wallbox charging\",\"data\":{\"type\":\"announce\"},\"target\":\"media_player.<YOUR_ALEXA_NAME_HERE>\"}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 840,
+        "y": 520,
+        "wires": [
+            [
+                "f5820a8d24e3cd69",
+                "4ca84d0f20fd30de"
+            ]
+        ]
+    },
+    {
+        "id": "8ac5bc8ace352f6f",
+        "type": "api-call-service",
+        "z": "01598ca0e87ca5fa",
+        "name": "Discharging Alexa notification",
+        "server": "9abb00aef19ebed9",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "notify",
+        "service": "alexa_media_<YOUR_ALEXA_NAME_HERE>",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [],
+        "data": "{\"message\":\"Wallbox discharging\",\"data\":{\"type\":\"announce\"},\"target\":\"media_player.<YOUR_ALEXA_NAME_HERE>\"}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 900,
+        "y": 460,
+        "wires": [
+            [
+                "f5820a8d24e3cd69",
+                "4ca84d0f20fd30de"
+            ]
+        ]
+    },
+    {
+        "id": "02b1350a24e820cb",
+        "type": "api-call-service",
+        "z": "01598ca0e87ca5fa",
+        "name": "Ready",
+        "server": "9abb00aef19ebed9",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "notify",
+        "service": "alexa_media_<YOUR_ALEXA_NAME_HERE>",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [],
+        "data": "{\"message\":\"Wallbox ready\",\"data\":{\"type\":\"announce\"},\"target\":\"media_player.<YOUR_ALEXA_NAME_HERE>\"}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 830,
+        "y": 580,
+        "wires": [
+            [
+                "f5820a8d24e3cd69",
+                "4ca84d0f20fd30de"
+            ]
+        ]
+    },
+    {
+        "id": "6f6e06ff225f1fda",
+        "type": "api-call-service",
+        "z": "01598ca0e87ca5fa",
+        "name": "Paused by user",
+        "server": "9abb00aef19ebed9",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "notify",
+        "service": "alexa_media_<YOUR_ALEXA_NAME_HERE>",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [],
+        "data": "{\"message\":\"Wallbox paused\",\"data\":{\"type\":\"announce\"},\"target\":\"media_player.<YOUR_ALEXA_NAME_HERE>\"}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 860,
+        "y": 640,
+        "wires": [
+            [
+                "f5820a8d24e3cd69",
+                "4ca84d0f20fd30de"
+            ]
+        ]
+    },
+    {
+        "id": "d77d49318ec7139b",
+        "type": "debug",
+        "z": "01598ca0e87ca5fa",
+        "name": "Set previous status",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1250,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "242f63507c6c31fc",
+        "type": "switch",
+        "z": "01598ca0e87ca5fa",
+        "name": "Has paused state changed?",
+        "property": "wallbox",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "Paused by user",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Paused by user",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 540,
+        "y": 640,
+        "wires": [
+            [
+                "6f6e06ff225f1fda"
+            ],
+            [
+                "07296cd7351367f9"
+            ]
+        ]
+    },
+    {
+        "id": "7205b125fd9e3f5d",
+        "type": "switch",
+        "z": "01598ca0e87ca5fa",
+        "name": "Has ready state changed?",
+        "property": "wallbox",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "Ready",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Ready",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 530,
+        "y": 580,
+        "wires": [
+            [
+                "02b1350a24e820cb"
+            ],
+            [
+                "07296cd7351367f9"
+            ]
+        ]
+    },
+    {
+        "id": "07296cd7351367f9",
+        "type": "debug",
+        "z": "01598ca0e87ca5fa",
+        "name": "No change, ignored",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 870,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "4ca84d0f20fd30de",
+        "type": "change",
+        "z": "01598ca0e87ca5fa",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "wallbox",
+                "pt": "global",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1250,
+        "y": 520,
+        "wires": [
+            [
+                "d77d49318ec7139b"
+            ]
+        ]
+    },
+    {
+        "id": "95a9d6170555531d",
+        "type": "switch",
+        "z": "01598ca0e87ca5fa",
+        "name": "Has discharging state changed?",
+        "property": "wallbox",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "Discharging",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Discharging",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 550,
+        "y": 460,
+        "wires": [
+            [
+                "8ac5bc8ace352f6f"
+            ],
+            [
+                "07296cd7351367f9"
+            ]
+        ]
+    },
+    {
+        "id": "706c929aba6db673",
+        "type": "switch",
+        "z": "01598ca0e87ca5fa",
+        "name": "Has Charging state changed?",
+        "property": "wallbox",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "Charging",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Charging",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 550,
+        "y": 520,
+        "wires": [
+            [
+                "2132ebfcbba14943"
+            ],
+            [
+                "07296cd7351367f9"
+            ]
+        ]
+    },
+    {
+        "id": "9abb00aef19ebed9",
+        "type": "server",
+        "name": "Home Assistant",
+        "version": 2,
+        "addon": false,
+        "rejectUnauthorizedCerts": false,
+        "ha_boolean": "y|yes|true|on|home|open",
+        "connectionDelay": true,
+        "cacheJson": true,
+        "heartbeat": false,
+        "heartbeatInterval": "30"
+    }
+]
